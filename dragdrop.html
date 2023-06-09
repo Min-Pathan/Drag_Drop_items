@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Side-by-Side Divs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .container {
+            display: flex;            
+        }
+        h3{
+            text-align: center;
+            background-color: aqua;
+        }
+        h2{
+            text-align: center;
+        }
+
+        .left-div, .right-div {
+            width: 40%;
+            height: 650px;
+            box-sizing: border-box;
+            padding-left: 10px;
+        }
+
+        .left-div {
+            background-color: lightblue;
+            margin-left: 100px;
+        }
+
+        .right-div {
+            background-color: lightgreen;
+            margin-left: 100px;
+        }
+        .image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .image:hover {
+            transform: scale(1.1);
+        }
+
+        .icon1 {
+            /* margin-top: 35px; */
+            margin-left: 400px;
+            font-size: 35px;
+        }
+
+        .reset-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #image1{
+            cursor: move;
+        }
+
+        #txt{
+            cursor: move;
+        }
+        #icon{
+            cursor:move;
+        }
+    </style>
+    <script>
+        function dragImg(e) 
+        {
+            e.dataTransfer.setData("text", e.target.id);
+        }
+
+        function allowDrop(e) 
+        {
+            e.preventDefault();
+        }
+
+        function dropImg(e) 
+        {
+            e.preventDefault();
+            var data = e.dataTransfer.getData("text");
+            var image = document.getElementById(data);
+            image.style.fontSize='20px';
+            image.style.color='blue';
+            e.target.appendChild(image);
+            showAlert("Successfully added", 2000);
+           
+        }        
+        
+        function showAlert(message, duration) 
+        {
+            alert(message);
+            setTimeout(function() {
+                alert.dismiss();
+            }, duration);
+        }
+
+        
+
+        function resetDivs() {
+            var leftDiv = document.querySelector('.left-div');
+            var rightDiv = document.querySelector('.right-div');
+
+            leftDiv.innerHTML = originalLeftContent;  
+            rightDiv.innerHTML = originalRightContent;
+
+            showAlert("Successfully reset");
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var leftDiv = document.querySelector('.left-div');
+            var rightDiv = document.querySelector('.right-div');
+
+            originalLeftContent = leftDiv.innerHTML;    // Store the original content of the left div
+            originalRightContent = rightDiv.innerHTML;  // Store the original content of the right div
+        });
+
+    </script>
+</head>
+<body>
+    <h3>Seperate all the dogs to Dog Panel</h3>
+    <div class="container">
+        <div class="left-div" ondrop="dropImg(event)" ondragover="allowDrop(event)">  
+                  
+            <h2>Cat Lovers</h2>    
+               
+            <img src="cute-cat-photos-1593441022.jpg" alt="Image 1" class="image">  
+            <i class="fas fa-cat icon1"></i> 
+            <p>I love cats because I enjoy my home; and little by little, they become its visible soul.</p>
+            
+            <img src="cat-551554_1280.jpg" alt="Image 2" class="image">
+            <p>Time spent with cats is never wasted.</p>
+
+
+            <img src="puppy-2785074_1280.jpg" alt="Image 2" class="image" id="image1"
+            draggable="true" ondragstart="dragImg(event)">
+            <i class="fas fa-dog icon1" id="icon" draggable="true" ondragstart="dragImg(event)"></i> 
+            <p id="txt" draggable="true" ondragstart="dragImg(event)">No one appreciates the very special 
+                genius of your conversation as the dog does</p>
+
+            <img src="dog2.jpg" alt="Image 2" class="image" id="image1"
+            draggable="true" ondragstart="dragImg(event)">
+            <p id="txt" draggable="true" ondragstart="dragImg(event)">Everything I know I learned from dogs</p>
+            
+        </div>
+        
+        <div class="right-div" ondrop="dropImg(event)" ondragover="allowDrop(event)">
+            
+            <h2>Dog Lovers</h2>   
+                
+            <img src="cutest-dog-breeds-jpg.jpg" alt="Image 2" class="image">
+            <p>Outside of a dog, a book is a man’s best friend. Inside of a dog it’s too dark to read.</p>            
+        </div>        
+    </div>
+    <div class="reset-button">
+        <button onclick="resetDivs()">Reset</button>
+    </div>
+   
+</body>
+</html>
